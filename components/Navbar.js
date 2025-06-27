@@ -3,13 +3,10 @@
 
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Home, FileText, Info, Mail, LogIn, UserPlus, Moon, Sun } from "lucide-react";
 import Link from "next/link";
-import { useTheme } from 'next-themes'
+import { useTheme } from 'next-themes';
 import { Button } from "@/components/ui/button";
-import { Home, FileText, Info, Mail, LogIn, UserPlus } from "lucide-react"
-
-import { Moon, Sun } from "lucide-react"
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
@@ -24,48 +21,38 @@ export default function Navbar() {
                     <span className="text-purple-500">IQ</span>
                 </Link>
 
-
-
                 {/* Desktop Links */}
                 <div className="hidden md:flex items-center gap-6">
-                    <Link
-                        href="/"
-                        className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform"
-                    >
+                    <Link href="/" className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform">
                         <Home className="w-5 h-5" />
                         Home
                     </Link>
-                    <Link
-                        href="/blogs"
-                        className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform"
-                    >
+                    <Link href="/blogs" className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform">
                         <FileText className="w-5 h-5" />
                         Blogs
                     </Link>
-                    <Link
-                        href="/about"
-                        className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform"
-                    >
+                    <Link href="/about" className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform">
                         <Info className="w-5 h-5" />
                         About
                     </Link>
-                    <Link
-                        href="/contact"
-                        className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform"
-                    >
+                    <Link href="/contact" className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform">
                         <Mail className="w-5 h-5" />
                         Contact
                     </Link>
 
                     <div className="flex gap-2 ml-4">
-                        <Button className="cursor-pointer flex items-center gap-2 hover:scale-105 transform" variant="outline">
-                            <LogIn className="w-4 h-4" />
-                            Login
-                        </Button>
-                        <Button className="cursor-pointer flex items-center gap-2 hover:scale-105 transform">
-                            <UserPlus className="w-4 h-4" />
-                            Signup
-                        </Button>
+                        <Link href="/login">
+                            <Button className="flex items-center gap-2 hover:scale-105 transform" variant="outline">
+                                <LogIn className="w-4 h-4" />
+                                Login
+                            </Button>
+                        </Link>
+                        <Link href="/register">
+                            <Button className="flex items-center gap-2 hover:scale-105 transform">
+                                <UserPlus className="w-4 h-4" />
+                                Signup
+                            </Button>
+                        </Link>
                         <Button
                             className="cursor-pointer hover:scale-110 transform"
                             variant="outline"
@@ -77,25 +64,19 @@ export default function Navbar() {
                     </div>
                 </div>
 
-
-
                 {/* Mobile Hamburger */}
-                <div className="md:hidden">
+                <div className="md:hidden flex items-center gap-2">
+                    <Button
+                        className="cursor-pointer"
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                    >
+                        {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                    </Button>
                     <Sheet open={open} onOpenChange={setOpen}>
-                        <Button
-                            className="cursor-pointer"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                        >
-                            {theme === 'dark' ? (
-                                <Sun className="w-5 h-5" />
-                            ) : (
-                                <Moon className="w-5 h-5" />
-                            )}
-                        </Button>
                         <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon" className=" cursor-pointer">
+                            <Button variant="ghost" size="icon" className="cursor-pointer">
                                 <Menu className="h-6 w-6 text-gray-800 dark:text-white" />
                             </Button>
                         </SheetTrigger>
@@ -108,58 +89,36 @@ export default function Navbar() {
                                 </SheetTitle>
                             </SheetHeader>
                             <nav className="flex flex-col gap-4 mt-6 text-center">
-                                <div className="mt-4 flex justify-center">
-
-                                </div>
-
-
-                                <Link
-                                    href="/"
-                                    onClick={() => setOpen(false)}
-                                    className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300"
-                                >
+                                <Link href="/" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300">
                                     <Home className="w-5 h-5" />
                                     Home
                                 </Link>
-                                <Link
-                                    href="/blogs"
-                                    onClick={() => setOpen(false)}
-                                    className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300"
-                                >
+                                <Link href="/blogs" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300">
                                     <FileText className="w-5 h-5" />
                                     Blogs
                                 </Link>
-                                <Link
-                                    href="/about"
-                                    onClick={() => setOpen(false)}
-                                    className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300"
-                                >
+                                <Link href="/about" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300">
                                     <Info className="w-5 h-5" />
                                     About
                                 </Link>
-                                <Link
-                                    href="/contact"
-                                    onClick={() => setOpen(false)}
-                                    className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300"
-                                >
+                                <Link href="/contact" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300">
                                     <Mail className="w-5 h-5" />
                                     Contact
                                 </Link>
-
-
-
                                 <div className="flex justify-center gap-2 mt-6">
-                                    <Button className="cursor-pointer flex items-center gap-2" variant="outline">
-                                        <LogIn className="w-4 h-4" />
-                                        Login
-                                    </Button>
-                                    <Button className="cursor-pointer flex items-center gap-2">
-                                        <UserPlus className="w-4 h-4" />
-                                        Signup
-                                    </Button>
+                                    <Link href="/login" onClick={() => setOpen(false)}>
+                                        <Button className="cursor-pointer flex items-center gap-2" variant="outline">
+                                            <LogIn className="w-4 h-4" />
+                                            Login
+                                        </Button>
+                                    </Link>
+                                    <Link href="/register" onClick={() => setOpen(false)}>
+                                        <Button className="cursor-pointer flex items-center gap-2">
+                                            <UserPlus className="w-4 h-4" />
+                                            Signup
+                                        </Button>
+                                    </Link>
                                 </div>
-
-
                             </nav>
                         </SheetContent>
                     </Sheet>
