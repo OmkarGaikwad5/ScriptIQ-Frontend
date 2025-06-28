@@ -52,8 +52,8 @@ export default function Home() {
           real-time collaboration, and powerful publishing tools for modern storytellers.
         </p>
         {!showForm ? (
-          <Button className="mt-6" onClick={() => setShowForm(true)}>
-            Start Exploring
+          <Button className="mt-6 cursor-pointer" onClick={() => setShowForm(true)}>
+            Create Your Own Blog
           </Button>
         ) : null}
       </motion.section>
@@ -133,7 +133,7 @@ export default function Home() {
         {/* Button to explore more */}
         <div className="mt-12 text-center">
           <Link href="/blogs">
-            <Button variant="outline" className="text-base px-6 py-2">
+            <Button variant="outline" className="text-base px-6 py-2 cursor-pointer">
               Explore More Blogs →
             </Button>
           </Link>
@@ -142,31 +142,42 @@ export default function Home() {
 
       {/* Section 3: Community */}
       <motion.section
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="relative px-6 py-16 bg-gray-100 dark:bg-gray-950 rounded-2xl shadow-inner"
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-blue-600 dark:text-blue-400">
-            Join the <span className="text-purple-500">ScriptIQ</span> Community
-          </h2>
-          <p className="mt-4 text-gray-700 dark:text-gray-300 text-lg md:text-xl">
-            Connect, share, and grow with fellow bloggers. Whether you&apos;re just starting or scaling up,
-            ScriptIQ gives you the tools and network to elevate your voice in the digital world.
-          </p>
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9, ease: 'easeOut' }}
+      viewport={{ once: true }}
+      className="relative z-10 px-6 py-20 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border border-gray-200 dark:border-gray-800 shadow-2xl rounded-3xl overflow-hidden"
+    >
+      {/* Glowing Gradient Background Blur */}
+      <div className="absolute inset-0 z-[-1] pointer-events-none">
+        <div className="absolute -top-10 -left-10 w-96 h-96 bg-gradient-to-tr from-purple-400/30 to-blue-400/30 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-bl from-blue-300/30 to-purple-500/30 rounded-full blur-2xl opacity-30" />
+      </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Button className="w-full sm:w-auto px-6 py-2 text-base">Join Now</Button>
-            <Button variant="outline" className="w-full sm:w-auto px-6 py-2 text-base">
-              Learn More
-            </Button>
-          </div>
+      <div className="max-w-4xl mx-auto text-center space-y-6">
+        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
+          Join the <span className=" decoration-purple-500">ScriptIQ</span> Community
+        </h2>
+
+        <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          Connect, collaborate, and grow with creators across the world. Whether you&apos;re writing your first blog
+          or scaling your audience—ScriptIQ helps you make your voice heard in style.
+        </p>
+
+        <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+          <Button size="lg" className="px-8 py-3 text-base shadow-lg hover:scale-[1.03] transition-transform">
+            🚀 Join Now
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="px-8 py-3 text-base border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          >
+            📖 Learn More
+          </Button>
         </div>
-
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-50/40 to-purple-100/20 dark:from-blue-900/10 dark:to-purple-900/10 pointer-events-none z-[-1] rounded-2xl" />
-      </motion.section>
+      </div>
+    </motion.section>
     </main>
   );
 }

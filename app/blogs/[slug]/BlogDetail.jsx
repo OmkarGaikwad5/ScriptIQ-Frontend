@@ -38,7 +38,7 @@ const BlogDetail = ({ blog }) => {
 
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
             <span>{new Date(blog.createdAt).toDateString()}</span>
-         <span className="ml-2 italic">By {blog.author || 'Unknown Author'}</span>
+            <span className="ml-2 italic">By {blog.author || 'Unknown Author'}</span>
 
 
           </div>
@@ -47,9 +47,43 @@ const BlogDetail = ({ blog }) => {
             {blog.description}
           </p>
 
-          <Link href="/blogs">
-            <Button variant="outline">← Back to Blogs</Button>
-          </Link>
+<div className="flex flex-col sm:flex-row justify-between items-center w-full mt-6">
+  <Link href="/">
+    <Button className="cursor-pointer" variant="outline">
+      ← Back to Blogs
+    </Button>
+  </Link>
+
+  <Button
+    variant="default"
+    className="cursor-pointer mt-4 sm:mt-0"
+    onClick={() => {
+      const content = `
+Title: ${blog.title}
+Author: ${blog.author || 'Unknown'}
+Date: ${new Date(blog.createdAt).toDateString()}
+
+Description:
+${blog.description}
+`;
+
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${blog.title.replace(/\s+/g, '_')}.txt`;
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }}
+  >
+    ⬇️ Download Blog
+  </Button>
+</div>
+
+
+
         </div>
       </div>
     </div>

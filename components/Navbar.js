@@ -78,7 +78,7 @@ setIsLoggedIn(false);
               {isLoggedIn && (
                 <Button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 hover:scale-105 transform"
+                  className="flex items-center gap-2 hover:scale-105 transform cursor-pointer"
                   variant="destructive"
                 >
                   <LogOut className="w-4 h-4" />

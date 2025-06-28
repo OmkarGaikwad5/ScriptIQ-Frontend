@@ -121,7 +121,7 @@ export default function YourBlogs({ token }) {
                 </Link>
                 <button
                   onClick={() => handleDelete(blog.slug)}
-                  className="text-red-500 hover:text-red-700 transition"
+                  className="text-red-500 cursor-pointer hover:text-red-700 transition "
                   title="Delete blog"
                 >
                   <Trash2 className="w-5 h-5" />

@@ -61,54 +61,91 @@ export default function BlogForm({ token, onClose, onBlogCreated }) {
 
 
     return (
-        <Card className="max-w-2xl mx-auto mt-10 shadow-xl">
-            <CardContent className="p-6 space-y-5">
-                <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-bold text-blue-600">📝 Create a New Blog</h2>
-                    <Button variant="ghost" size="sm" onClick={onClose}>
-                        Close
-                    </Button>
-                </div>
+           <Card className="max-w-2xl mx-auto mt-16 border border-gray-200 dark:border-gray-700 shadow-xl rounded-2xl">
+      <CardContent className="p-8 space-y-6">
+        {/* Header */}
+        <div className="flex justify-between items-center border-b pb-4">
+          <h2 className="text-3xl font-bold text-blue-600">📝 Create a New Blog</h2>
+          <Button variant="ghost" size="sm" className="text-sm cursor-pointer" onClick={onClose}>
+            Close
+          </Button>
+        </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <Label htmlFor="title">Title</Label>
-                        <Input id="title" name="title" value={form.title} onChange={handleChange} required />
-                    </div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Title */}
+          <div className="space-y-2">
+            <Label htmlFor="title" className="text-md">Title</Label>
+            <Input
+              id="title"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              placeholder="Enter blog title"
+              required
+            />
+          </div>
 
-                    <div>
-                        <Label htmlFor="description">Description</Label>
-                        <Textarea id="description" name="description" value={form.description} onChange={handleChange} required />
-                    </div>
-                    <div>
-                        <Label htmlFor="image">Upload Image</Label>
-                        <Input
-                            id="image"
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => setImageFile(e.target.files[0])}
-                            required
-                        />
-                    </div>
+          {/* Description */}
+          <div className="space-y-2">
+            <Label htmlFor="description" className="text-md">Description</Label>
+            <Textarea
+              id="description"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              rows={5}
+              placeholder="Write a short description..."
+              required
+            />
+          </div>
 
+          {/* Image Upload */}
+          <div className="space-y-2">
+            <Label htmlFor="image" className="text-md">Upload Image</Label>
+            <Input
+              id="image"
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImageFile(e.target.files[0])}
+              required
+            />
+          </div>
 
-                    <div>
-                        <Label htmlFor="author">Author</Label>
-                        <Input id="author" name="author" value={form.author} onChange={handleChange} required />
-                    </div>
+          {/* Author */}
+          <div className="space-y-2">
+            <Label htmlFor="author" className="text-md">Author</Label>
+            <Input
+              id="author"
+              name="author"
+              value={form.author}
+              onChange={handleChange}
+              placeholder="Author name"
+              required
+            />
+          </div>
 
-                    <div>
-                        <Label htmlFor="createdAt">Created At</Label>
-                        <Input id="createdAt" name="createdAt" value={new Date(form.createdAt).toLocaleString()} readOnly />
-                    </div>
+          {/* Created At */}
+          <div className="space-y-2">
+            <Label htmlFor="createdAt" className="text-md">Created At</Label>
+            <Input
+              id="createdAt"
+              name="createdAt"
+              value={new Date(form.createdAt).toLocaleString()}
+              readOnly
+              className="bg-gray-100 dark:bg-gray-800 cursor-not-allowed"
+            />
+          </div>
 
-                    {error && <p className="text-red-500 text-sm">{error}</p>}
+          {/* Error */}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                    <Button type="submit" className="w-full">
-                        Submit Blog
-                    </Button>
-                </form>
-            </CardContent>
-        </Card>
+          {/* Submit Button */}
+          <Button type="submit" className="w-full text-md py-2 cursor-pointer">
+            🚀 Submit Blog
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
     );
 }

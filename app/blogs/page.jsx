@@ -84,7 +84,7 @@ const BlogPage = () => {
             </div>
 
             {loadingInitial ? (
-                <p className="text-center text-gray-500">Loading blogs...</p>
+                <p className="text-center text-gray-500 ">Loading blogs...</p>
             ) : (
                 <>
                     <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -164,7 +164,7 @@ const BlogPage = () => {
                                         </span>
                                     </div>
                                     <a href={blog.url} target="_blank" rel="noopener noreferrer">
-                                        <Button variant="default" className="w-30 mt-2">
+                                        <Button variant="default" className="w-30 mt-2 cursor-pointer">
                                             Read More →
                                         </Button>
                                     </a>
@@ -178,7 +178,7 @@ const BlogPage = () => {
                             <Button
                                 onClick={handleLoadMore}
                                 disabled={loadingMore}
-                                className="text-lg px-6 py-3"
+                                className="text-lg px-6 py-3 cursor-pointer"
                             >
                                 {loadingMore ? 'Loading...' : 'Load More'}
                             </Button>
