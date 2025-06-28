@@ -1,9 +1,8 @@
-// ✅ STEP 5: REGISTER PAGE
-// app/register/page.jsx
 "use client";
 import { useState } from "react";
 import { register } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
@@ -52,6 +51,13 @@ export default function RegisterPage() {
           required
         />
         <Button type="submit" className="w-full mt-2">Register</Button>
+
+        <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-300">
+          Already have an account?{" "}
+          <Link href="/login" className="text-blue-600 hover:underline dark:text-blue-400">
+            Login here
+          </Link>
+        </p>
       </form>
     </motion.div>
   );

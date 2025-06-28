@@ -1,9 +1,8 @@
-// ✅ STEP 4: LOGIN PAGE
-// app/login/page.jsx
 "use client";
 import { useState } from "react";
 import { login } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
@@ -15,7 +14,7 @@ export default function LoginPage() {
     e.preventDefault();
     const res = await login(form);
     localStorage.setItem("token", res.data.token);
-    router.push("/blogs");
+    router.push("/");
   };
 
   return (
@@ -44,6 +43,13 @@ export default function LoginPage() {
           required
         />
         <Button type="submit" className="w-full mt-2">Login</Button>
+
+        <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-300">
+          Don’t have an account?{" "}
+          <Link href="/register" className="text-blue-600 hover:underline dark:text-blue-400">
+            Register here
+          </Link>
+        </p>
       </form>
     </motion.div>
   );

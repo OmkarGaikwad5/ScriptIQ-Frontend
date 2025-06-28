@@ -1,11 +1,39 @@
 'use client';
 
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import BlogForm from '@/components/BlogForm';
+import YourBlogs from '@/components/YourBlog';
 
 export default function Home() {
+  const [topBlogs, setTopBlogs] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [token, setToken] = useState('');
+
+  const fetchTopBlogs = async () => {
+    try {
+      const res = await fetch('https://dev.to/api/articles?per_page=3');
+      const data = await res.json();
+      setTopBlogs(data);
+    } catch (err) {
+      console.error('Error fetching top blogs:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchTopBlogs();
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) setToken(storedToken);
+  }, []);
+
+  const handleBlogCreated = () => {
+    setShowForm(false);
+  };
+
   return (
     <main className="container mx-auto p-4 my-10 space-y-30">
 
@@ -23,48 +51,45 @@ export default function Home() {
           ScriptIQ is your intelligent blogging companion. Discover AI-assisted content creation,
           real-time collaboration, and powerful publishing tools for modern storytellers.
         </p>
-        <Button className="mt-6">Start Exploring</Button>
+        {!showForm ? (
+          <Button className="mt-6" onClick={() => setShowForm(true)}>
+            Start Exploring
+          </Button>
+        ) : null}
       </motion.section>
+
+      {/* Blog Creation Form */}
+      {showForm && token ? (
+        <BlogForm
+          token={token}
+          onBlogCreated={() => {
+            setShowForm(false);
+          }}
+          onClose={() => setShowForm(false)}
+        />
+      ) : (
+        token && <YourBlogs token={token} />
+      )}
 
       {/* Section 2: Top Blogs */}
       <section className="mt-24">
-       <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  viewport={{ once: true }}
-  className="text-center mb-12"
->
-  <h2 className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400">
-    🔥 Top Blogs by ScriptIQ
-  </h2>
-  <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-xl mx-auto text-lg">
-    Hand-picked insights and articles crafted by experts to elevate your writing game.
-  </p>
-</motion.div>
-
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400">
+            🔥 Top Blogs by ScriptIQ
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-xl mx-auto text-lg">
+            Hand-picked insights and articles crafted by experts to elevate your writing game.
+          </p>
+        </motion.div>
 
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 px-4 sm:px-6 lg:px-8">
-          {[
-            {
-              title: "10 AI Tools Every Blogger Should Know",
-              desc: "Explore the latest AI tools transforming the blogging landscape in 2025.",
-              image: "/assets/blog-ai-tools.jpg",
-              link: "#",
-            },
-            {
-              title: "Mastering Real-Time Collaboration",
-              desc: "Collaborate in real time with version tracking and intelligent sync.",
-              image: "/assets/collaboration.jpg",
-              link: "#",
-            },
-            {
-              title: "How to Monetize Your Blog in 2025",
-              desc: "Learn practical strategies to generate income from your blog.",
-              image: "/assets/monetize.jpg",
-              link: "#",
-            },
-          ].map((blog, index) => (
+          {topBlogs.map((blog, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 40 }}
@@ -75,7 +100,7 @@ export default function Home() {
             >
               <div className="relative h-48 w-full">
                 <Image
-                  src={blog.image}
+                  src={blog.cover_image || '/default-image.jpg'}
                   alt={blog.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -87,13 +112,15 @@ export default function Home() {
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
                     {blog.title}
                   </h3>
-                  <p className="mt-2 text-gray-600 dark:text-gray-300 text-sm">
-                    {blog.desc}
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
+                    {blog.description || blog.summary}
                   </p>
                 </div>
 
                 <a
-                  href={blog.link}
+                  href={blog.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium mt-6 hover:underline"
                 >
                   Read More <ArrowRight className="w-4 h-4" />
@@ -102,9 +129,18 @@ export default function Home() {
             </motion.div>
           ))}
         </div>
+
+        {/* Button to explore more */}
+        <div className="mt-12 text-center">
+          <Link href="/blogs">
+            <Button variant="outline" className="text-base px-6 py-2">
+              Explore More Blogs →
+            </Button>
+          </Link>
+        </div>
       </section>
 
-      {/* Section 3: Community & Growth */}
+      {/* Section 3: Community */}
       <motion.section
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -129,7 +165,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Optional Decorative Background Element */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-50/40 to-purple-100/20 dark:from-blue-900/10 dark:to-purple-900/10 pointer-events-none z-[-1] rounded-2xl" />
       </motion.section>
     </main>
