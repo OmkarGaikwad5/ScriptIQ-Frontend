@@ -9,21 +9,25 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
+
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await register(form);
-      localStorage.setItem('token', res.data.token);
-      router.push('/');
-    } catch (err) {
-      console.error('Registration failed:', err.message);
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await register(form);
+    localStorage.setItem("token", res.data.token);
+    toast.success("Account created 🎉");
+    router.push("/");
+  } catch (err) {
+    toast.error("Registration failed ❌",err);
+  }
+};
+
 
   return (
     <motion.div

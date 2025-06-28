@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function YourBlogs({ token }) {
   const [blogs, setBlogs] = useState([]);
@@ -19,30 +20,36 @@ export default function YourBlogs({ token }) {
       const data = await res.json();
       setBlogs(data);
     } catch (error) {
-      console.error('Failed to fetch your blogs:', error);
+      toast.error('Failed to fetch your blogs:', error);
     }
   };
 
-  const handleDelete = async (slug) => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/blogs/${slug}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+ const handleDelete = async (slug) => {
+  try {
+    const res = await fetch(`http://localhost:5000/api/blogs/${slug}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || 'Failed to delete blog');
-      }
-
-      setBlogs(blogs.filter((blog) => blog.slug !== slug));
-    } catch (error) {
-      console.error('Failed to delete blog', error);
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || 'Failed to delete blog');
     }
-  };
+
+    setBlogs(blogs.filter((blog) => blog.slug !== slug));
+
+    // ✅ Show success toast
+    toast.success("Blog deleted successfully 🗑️");
+  } catch (error) {
+    console.error('Failed to delete blog', error);
+
+    // ✅ Show error toast
+    toast.error(`Delete failed: ${error.message}`);
+  }
+};
 
   useEffect(() => {
     if (token) fetchBlogs();

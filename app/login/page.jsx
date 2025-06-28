@@ -9,17 +9,23 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
     const res = await login(form);
-    localStorage.setItem('token', res.data.token);
-    router.push('/');
-  };
+    localStorage.setItem("token", res.data.token);
+    toast.success("Logged in successfully 🚀");
+    router.push("/");
+  } catch (err) {
+    toast.error("Login failed ❌");
+  }
+};
 
   return (
     <motion.div

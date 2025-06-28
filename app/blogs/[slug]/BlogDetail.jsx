@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
+import { toast } from "sonner";
 
 const BlogDetail = ({ blog }) => {
   if (!blog) {
@@ -47,17 +48,18 @@ const BlogDetail = ({ blog }) => {
             {blog.description}
           </p>
 
-<div className="flex flex-col sm:flex-row justify-between items-center w-full mt-6">
-  <Link href="/">
-    <Button className="cursor-pointer" variant="outline">
-      ← Back to Blogs
-    </Button>
-  </Link>
+          <div className="flex flex-col sm:flex-row justify-between items-center w-full mt-6">
+            <Link href="/">
+              <Button className="cursor-pointer" variant="outline">
+                ← Back to Blogs
+              </Button>
+            </Link>
 
-  <Button
-    variant="default"
-    className="cursor-pointer mt-4 sm:mt-0"
-    onClick={() => {
+          <Button
+  variant="default"
+  className="cursor-pointer mt-4 sm:mt-0"
+  onClick={() => {
+    try {
       const content = `
 Title: ${blog.title}
 Author: ${blog.author || 'Unknown'}
@@ -76,11 +78,16 @@ ${blog.description}
       a.click();
 
       URL.revokeObjectURL(url);
-    }}
-  >
-    ⬇️ Download Blog
-  </Button>
-</div>
+
+      toast.success("Blog downloaded ✅"); // ✅ Success toast
+    } catch (err) {
+      toast.error("Download failed ❌"); // ✅ Fallback error toast
+    }
+  }}
+>
+  ⬇️ Download Blog
+</Button>
+          </div>
 
 
 

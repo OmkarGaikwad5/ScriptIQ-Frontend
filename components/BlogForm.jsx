@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 export default function BlogForm({ token, onClose, onBlogCreated }) {
     const [form, setForm] = useState({
@@ -28,6 +29,7 @@ export default function BlogForm({ token, onClose, onBlogCreated }) {
         e.preventDefault();
         setError('');
         setLoading(true);
+        toast.success("Blog posted ✅");
 
         try {
             const formData = new FormData();

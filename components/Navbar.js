@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { toast } from 'sonner';
+
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -34,6 +36,7 @@ export default function Navbar() {
     window.location.href = "/login";
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    toast.success("Logged out successfully! 🎉");
   };
 
   const hideButtonsOn = ["/landing", "/login", "/register"];

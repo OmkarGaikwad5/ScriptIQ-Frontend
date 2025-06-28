@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import BlogDetail from './BlogDetail';
+import { toast } from 'sonner';
 
 const getBlogBySlug = async (slug) => {
   try {
@@ -9,7 +10,7 @@ const getBlogBySlug = async (slug) => {
     if (!res.ok) return null;
     return res.json();
   } catch (error) {
-    console.error("Error fetching blog:", error);
+    toast.error("Error fetching blog:", error);
     return null;
   }
 };

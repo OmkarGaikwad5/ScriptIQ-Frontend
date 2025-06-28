@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image'; // ✅ Ensure this import is present
 import { Button } from "@/components/ui/button";
 import { jwtDecode } from 'jwt-decode';
+import { toast } from 'sonner';
 
 
 
@@ -49,7 +50,7 @@ const BlogPage = () => {
 
             setBlogs((prev) => [...prev, ...data]);
         } catch (err) {
-            console.error("Error fetching blogs:", err);
+            toast.error("Error fetching blogs:", err);
             setHasMore(false);
         } finally {
             if (currentPage === 1) {
