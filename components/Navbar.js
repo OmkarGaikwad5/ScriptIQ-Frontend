@@ -53,7 +53,7 @@ export default function Navbar() {
             <span className="text-purple-500">IQ</span>
           </span>
         ) : (
-          <Link href="/home" className="text-2xl font-bold hover:scale-105 transition-transform">
+          <Link href="/" className="text-2xl font-bold hover:scale-105 transition-transform">
             <span className="text-blue-600">Script</span>
             <span className="text-purple-500">IQ</span>
           </Link>
@@ -61,7 +61,7 @@ export default function Navbar() {
 
         {!shouldHideButtons && (
           <div className="hidden md:flex items-center gap-6">
-            <Link href="/home" className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform">
+            <Link href="/" className="flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:scale-105 transform">
               <Home className="w-5 h-5" />
               Home
             </Link>
@@ -128,7 +128,7 @@ export default function Navbar() {
                 </SheetHeader>
 
                 <nav className="flex flex-col gap-4 mt-6 text-center">
-                  <Link href="/home" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300">
+                  <Link href="/" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 text-lg font-medium hover:scale-110 transition-transform duration-300">
                     <Home className="w-5 h-5" />
                     Home
                   </Link>
