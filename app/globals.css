@@ -45,6 +45,17 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* nprogress overrides */
+#nprogress .bar {
+  background: red !important; /* Indigo-500 (Tailwind) */
+  height: 5px !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px red, 0 0 5px red;
+}
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
