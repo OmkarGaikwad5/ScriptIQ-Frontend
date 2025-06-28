@@ -21,10 +21,10 @@ export default function LandingPage() {
         web development, and software engineering. Read, write, and explore technology-driven insights.
       </p>
       <div className="flex gap-4 mt-8">
-        <Button onClick={() => router.push("/login")} className="bg-blue-600 hover:bg-blue-700 text-white">
+        <Button onClick={() => router.push("/login")} className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer">
           Login
         </Button>
-        <Button onClick={() => router.push("/register")} variant="outline">
+        <Button onClick={() => router.push("/register")} className="cursor-pointer" variant="outline">
           Sign Up
         </Button>
       </div>
