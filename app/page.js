@@ -25,14 +25,16 @@ export default function Home() {
   };
 
 useEffect(() => {
-  fetchTopBlogs();
   const storedToken = localStorage.getItem('token');
-  if (!storedToken) {
-    window.location.href = '/landing'; // ✅ Redirect to /landing if not logged in
-  } else {
+
+  if (!storedToken && window.location.pathname === "/") {
+    window.location.href = "/landing"; // ✅ Prevent infinite loop
+  } else if (storedToken) {
     setToken(storedToken);
+    fetchTopBlogs(); // ✅ Fetch only if logged in
   }
 }, []);
+
 
   const handleBlogCreated = () => {
     setShowForm(false);

@@ -26,7 +26,7 @@ export default function YourBlogs({ token }) {
 
  const handleDelete = async (slug) => {
   try {
-    const res = await fetch(`http://localhost:5000/api/blogs/${slug}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs/${slug}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
