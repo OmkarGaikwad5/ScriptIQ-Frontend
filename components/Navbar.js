@@ -33,7 +33,7 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    window.location.href = "/login";
+    window.location.href = "/landing";
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     toast.success("Logged out successfully! 🎉");

@@ -24,11 +24,15 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    fetchTopBlogs();
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) setToken(storedToken);
-  }, []);
+useEffect(() => {
+  fetchTopBlogs();
+  const storedToken = localStorage.getItem('token');
+  if (!storedToken) {
+    window.location.href = '/landing'; // ✅ Redirect to /landing if not logged in
+  } else {
+    setToken(storedToken);
+  }
+}, []);
 
   const handleBlogCreated = () => {
     setShowForm(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { register } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -12,30 +12,31 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import Cookies from 'js-cookie';
 
-
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const router = useRouter();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await register(form);
+  // ✅ Hydration fix
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  if (!hydrated) return null;
 
-    // ✅ Save token in localStorage
-    localStorage.setItem("token", res.data.token);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await register(form);
 
-    // ✅ Set token in cookie so middleware can detect auth
-    Cookies.set("token", res.data.token, { expires: 7 });
+      // ✅ Save token in localStorage and cookie
+      localStorage.setItem('token', res.data.token);
+      Cookies.set('token', res.data.token, { expires: 7 });
 
-    toast.success("Account created 🎉");
-    router.push("/");
-  } catch (err) {
-    console.error("Registration error:", err);
-    toast.error("Registration failed ❌");
-  }
-};
-
+      toast.success('Account created 🎉');
+      router.push('/');
+    } catch (err) {
+      console.error('Registration error:', err);
+      toast.error('Registration failed ❌');
+    }
+  };
 
   return (
     <motion.div
@@ -103,10 +104,7 @@ const handleSubmit = async (e) => {
 
           <p className="text-center text-sm text-gray-600 dark:text-gray-400">
             Already a member?{' '}
-            <Link
-              href="/login"
-              className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
-            >
+            <Link href="/login" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
               Login here
             </Link>
           </p>
