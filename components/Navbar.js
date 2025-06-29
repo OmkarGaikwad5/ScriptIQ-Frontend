@@ -13,25 +13,29 @@ import { toast } from 'sonner';
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem("token"));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   const pathname = usePathname();
 
-  useEffect(() => {
-    const checkAuth = () => {
+useEffect(() => {
+  const checkAuth = () => {
+    if (typeof window !== 'undefined') {
       const token = localStorage.getItem("token");
       setIsLoggedIn(!!token);
-    };
+    }
+  };
 
-    checkAuth();
-    window.addEventListener("storage", checkAuth);
-    const interval = setInterval(checkAuth, 1000);
+  checkAuth();
+  window.addEventListener("storage", checkAuth);
+  const interval = setInterval(checkAuth, 1000);
 
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-      clearInterval(interval);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener("storage", checkAuth);
+    clearInterval(interval);
+  };
+}, []);
+
 
   const handleLogout = () => {
     window.location.href = "/landing";

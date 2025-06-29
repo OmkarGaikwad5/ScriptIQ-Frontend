@@ -14,7 +14,7 @@ export default function Home() {
   const router = useRouter();
   const [topBlogs, setTopBlogs] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   const fetchTopBlogs = async () => {
@@ -27,8 +27,8 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    fetchTopBlogs();
+useEffect(() => {
+  if (typeof window !== 'undefined') {
     const storedToken = localStorage.getItem('token');
     if (!storedToken) {
       router.replace('/landing');
@@ -36,7 +36,9 @@ export default function Home() {
       setToken(storedToken);
     }
     setCheckingAuth(false);
-  }, []);
+  }
+}, []);
+
 
   if (checkingAuth) return null; // Prevent render until token is checked
 
