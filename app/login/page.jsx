@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
+import Cookies from 'js-cookie';
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -20,6 +21,7 @@ export default function LoginPage() {
   try {
     const res = await login(form);
     localStorage.setItem("token", res.data.token);
+     Cookies.set("token", res.data.token, { expires: 1 });
     toast.success("Logged in successfully 🚀");
     router.push("/");
   } catch (err) {
