@@ -20,11 +20,18 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   try {
     const res = await register(form);
+
+    // ✅ Save token in localStorage
     localStorage.setItem("token", res.data.token);
+
+    // ✅ Set token in cookie so middleware can detect auth
+    Cookies.set("token", res.data.token, { expires: 1 });
+
     toast.success("Account created 🎉");
     router.push("/");
   } catch (err) {
-    toast.error("Registration failed ❌",err);
+    console.error("Registration error:", err);
+    toast.error("Registration failed ❌");
   }
 };
 
