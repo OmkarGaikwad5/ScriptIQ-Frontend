@@ -25,17 +25,26 @@ export default function Home() {
   };
 
 useEffect(() => {
-  const storedToken = localStorage.getItem('token');
+  // Ensure this only runs on client
+  if (typeof window === "undefined") return;
+
   const currentPath = window.location.pathname;
 
+  const storedToken = localStorage.getItem("token");
+
+  // ✅ Redirect only if on '/' and not logged in
   if (!storedToken && currentPath === "/") {
-    // 👇 prevent infinite loop by setting flag
-    window.location.replace("/landing");
-  } else if (storedToken) {
+    window.location.href = "/landing"; // or use replace() if needed
+    return;
+  }
+
+  // ✅ If token exists, set and fetch blogs
+  if (storedToken) {
     setToken(storedToken);
-    fetchTopBlogs(); // ✅ Only fetch if token exists
+    fetchTopBlogs();
   }
 }, []);
+
 
 
 
