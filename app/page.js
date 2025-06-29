@@ -26,14 +26,17 @@ export default function Home() {
 
 useEffect(() => {
   const storedToken = localStorage.getItem('token');
+  const currentPath = window.location.pathname;
 
-  if (!storedToken && window.location.pathname === "/") {
-    window.location.href = "/landing"; // ✅ Prevent infinite loop
+  if (!storedToken && currentPath === "/") {
+    // 👇 prevent infinite loop by setting flag
+    window.location.replace("/landing");
   } else if (storedToken) {
     setToken(storedToken);
-    fetchTopBlogs(); // ✅ Fetch only if logged in
+    fetchTopBlogs(); // ✅ Only fetch if token exists
   }
 }, []);
+
 
 
   const handleBlogCreated = () => {
