@@ -10,12 +10,12 @@ import BlogForm from '@/components/BlogForm';
 import YourBlogs from '@/components/YourBlog';
 import { useRouter } from 'next/navigation';
 
-
 export default function Home() {
-    const router = useRouter();
+  const router = useRouter();
   const [topBlogs, setTopBlogs] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [token, setToken] = useState('');
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   const fetchTopBlogs = async () => {
     try {
@@ -30,21 +30,18 @@ export default function Home() {
   useEffect(() => {
     fetchTopBlogs();
     const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
+    if (!storedToken) {
+      router.replace('/landing');
     } else {
-      router.push('/landing');
+      setToken(storedToken);
     }
+    setCheckingAuth(false);
   }, []);
 
-
-  const handleBlogCreated = () => {
-    setShowForm(false);
-  };
+  if (checkingAuth) return null; // Prevent render until token is checked
 
   return (
     <main className="container mx-auto p-4 my-10 space-y-30">
-
       {/* Section 1: Welcome Intro */}
       <motion.section
         initial={{ opacity: 0, y: 40 }}
@@ -138,7 +135,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Button to explore more */}
         <div className="mt-12 text-center">
           <Link href="/blogs">
             <Button variant="outline" className="text-base px-6 py-2 cursor-pointer">
@@ -150,42 +146,41 @@ export default function Home() {
 
       {/* Section 3: Community */}
       <motion.section
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.9, ease: 'easeOut' }}
-      viewport={{ once: true }}
-      className="relative z-10 px-6 py-20 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border border-gray-200 dark:border-gray-800 shadow-2xl rounded-3xl overflow-hidden"
-    >
-      {/* Glowing Gradient Background Blur */}
-      <div className="absolute inset-0 z-[-1] pointer-events-none">
-        <div className="absolute -top-10 -left-10 w-96 h-96 bg-gradient-to-tr from-purple-400/30 to-blue-400/30 rounded-full blur-3xl opacity-40" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-bl from-blue-300/30 to-purple-500/30 rounded-full blur-2xl opacity-30" />
-      </div>
-
-      <div className="max-w-4xl mx-auto text-center space-y-6">
-        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
-          Join the <span className=" decoration-purple-500">ScriptIQ</span> Community
-        </h2>
-
-        <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-          Connect, collaborate, and grow with creators across the world. Whether you&apos;re writing your first blog
-          or scaling your audience—ScriptIQ helps you make your voice heard in style.
-        </p>
-
-        <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-          <Button size="lg" className="px-8 py-3 text-base shadow-lg hover:scale-[1.03] transition-transform">
-            🚀 Join Now
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="px-8 py-3 text-base border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-          >
-            📖 Learn More
-          </Button>
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, ease: 'easeOut' }}
+        viewport={{ once: true }}
+        className="relative z-10 px-6 py-20 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border border-gray-200 dark:border-gray-800 shadow-2xl rounded-3xl overflow-hidden"
+      >
+        <div className="absolute inset-0 z-[-1] pointer-events-none">
+          <div className="absolute -top-10 -left-10 w-96 h-96 bg-gradient-to-tr from-purple-400/30 to-blue-400/30 rounded-full blur-3xl opacity-40" />
+          <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-bl from-blue-300/30 to-purple-500/30 rounded-full blur-2xl opacity-30" />
         </div>
-      </div>
-    </motion.section>
+
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
+            Join the <span className=" decoration-purple-500">ScriptIQ</span> Community
+          </h2>
+
+          <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Connect, collaborate, and grow with creators across the world. Whether you&apos;re writing your first blog
+            or scaling your audience—ScriptIQ helps you make your voice heard in style.
+          </p>
+
+          <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+            <Button size="lg" className="px-8 py-3 text-base shadow-lg hover:scale-[1.03] transition-transform">
+              🚀 Join Now
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="px-8 py-3 text-base border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            >
+              📖 Learn More
+            </Button>
+          </div>
+        </div>
+      </motion.section>
     </main>
   );
 }

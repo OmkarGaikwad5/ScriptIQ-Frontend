@@ -13,7 +13,8 @@ import { toast } from 'sonner';
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem("token"));
+
   const pathname = usePathname();
 
   useEffect(() => {
