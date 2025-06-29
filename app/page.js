@@ -25,25 +25,22 @@ export default function Home() {
   };
 
 useEffect(() => {
-  // Ensure this only runs on client
   if (typeof window === "undefined") return;
 
-  const currentPath = window.location.pathname;
-
-  const storedToken = localStorage.getItem("token");
-
-  // ✅ Redirect only if on '/' and not logged in
-  if (!storedToken && currentPath === "/") {
-    window.location.href = "/landing"; // or use replace() if needed
-    return;
-  }
-
-  // ✅ If token exists, set and fetch blogs
-  if (storedToken) {
-    setToken(storedToken);
-    fetchTopBlogs();
-  }
+  // Delay auth check slightly to avoid hydration issues in production
+  setTimeout(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      if (window.location.pathname === "/") {
+        window.location.replace("/landing"); // avoid infinite redirect loop
+      }
+    } else {
+      setToken(token);
+      fetchTopBlogs();
+    }
+  }, 50); // slight delay to ensure localStorage is available
 }, []);
+
 
 
 
