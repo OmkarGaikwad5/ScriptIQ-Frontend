@@ -26,7 +26,7 @@ const handleSubmit = async (e) => {
     localStorage.setItem("token", res.data.token);
 
     // ✅ Set token in cookie so middleware can detect auth
-    Cookies.set("token", res.data.token, { expires: 1 });
+    Cookies.set("token", res.data.token, { expires: 7 });
 
     toast.success("Account created 🎉");
     router.push("/");
