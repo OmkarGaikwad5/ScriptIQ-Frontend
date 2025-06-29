@@ -8,8 +8,11 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import BlogForm from '@/components/BlogForm';
 import YourBlogs from '@/components/YourBlog';
+import { useRouter } from 'next/navigation';
+
 
 export default function Home() {
+    const router = useRouter();
   const [topBlogs, setTopBlogs] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [token, setToken] = useState('');
@@ -24,25 +27,15 @@ export default function Home() {
     }
   };
 
-useEffect(() => {
-  if (typeof window === "undefined") return;
-
-  // Delay auth check slightly to avoid hydration issues in production
-  setTimeout(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      if (window.location.pathname === "/") {
-        window.location.replace("/landing"); // avoid infinite redirect loop
-      }
+  useEffect(() => {
+    fetchTopBlogs();
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
     } else {
-      setToken(token);
-      fetchTopBlogs();
+      router.push('/landing');
     }
-  }, 50); // slight delay to ensure localStorage is available
-}, []);
-
-
-
+  }, []);
 
 
   const handleBlogCreated = () => {
